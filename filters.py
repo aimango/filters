@@ -88,7 +88,10 @@ def read_aae_file(path):
     
     effect_names = [ d_["settings"]["effectName"] for d_ in d["adjustments"] if d_["identifier"] == "Effect"]
     
-    filter_name = "CIPhotoEffect" + effect_names[0]
+    filter_name = "nofilter"
+    if effect_names:
+         filter_name = "CIPhotoEffect" + effect_names[0]
+
     print "-- filter:", filter_name
 
     return filter_name, orientation
@@ -108,7 +111,7 @@ def main():
         print "-- reading", aae
 
         filter_name, orientation = read_aae_file(aae)
-        if not filter_name:
+        if not filter_name or filter_name == 'nofilter':
             continue
         
         name, ext = os.path.splitext(aae)
